@@ -26,13 +26,13 @@
 
 
 # Red Hat Satellite Capsule
-- ansible.builtin.import_playbook: image-capsule.yml
+- ansible.builtin.import_playbook: vm-kickstart.yml
+  vars:
+    host_to_build: capsule.source.example.com
+- ansible.builtin.import_playbook: roles-capsule.yml
 - ansible.builtin.import_playbook: machine-to-template.yml
   vars:
     host_to_image: capsule.source.example.com
-- ansible.builtin.import_playbook: machine-to-template.yml
-  vars:
-    host_to_image: aapee.source.example.com
 - ansible.builtin.import_playbook: template-to-machine.yml
   vars:
     host_to_start: capsule.source.example.com
@@ -43,7 +43,6 @@
   vars:
     host_to_build: aapee.source.example.com
 - ansible.builtin.import_playbook: roles-aapee.yml
-# VM template
 - ansible.builtin.import_playbook: machine-to-template.yml
   vars:
     host_to_image: aapee.source.example.com

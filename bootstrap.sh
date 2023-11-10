@@ -40,22 +40,24 @@ RHSM_USER=my_developer_user
 RHSM_PASSWORD='my developer password'
 
 
-# 2. Set ANSIBLE_GALAXY_SERVER_AUTOMATION_HUB_TOKEN.
+# 2. Set hub token ANSIBLE_GALAXY_SERVER_AUTOMATION_HUB_TOKEN.
 # Anyone with an RHSM account can use Red Hat Automation Hub.
-# You can download Ansible collections after authenticating with a token.
+# You can download Ansible collections after authenticating with an "offline token".
+# For no good reason, both the API token and the Hub token are called "offline tokens".
 #
 # Open the API token page. 
+#   Red Hat Hybrid Cloud Console > Ansible Automation Platform > Automation Hub > Connect to Hub
 #   https://console.redhat.com/ansible/automation-hub/token#
 # Click the button to generate a token.
-# Copy the token.
+# Copy the offline token.
 # Paste the token here. 
 # The ansible-galaxy command looks for this environment variable.
 export ANSIBLE_GALAXY_SERVER_AUTOMATION_HUB_TOKEN=eyJhbGciOi...(about 800 more characters)...asdf
 # (You can also put your offline token in ansible.cfg.)
 
 
-# 3. Set OFFLINE_TOKEN.
-# Authenticate to Red Hat portal using an API token.
+# 3. Set API token OFFLINE_TOKEN.
+# Authenticate to Red Hat portal using a "Red Hat API Token".
 # After the hypervisor is installed, 
 # the role https://github.com/nickhardiman/ansible-collection-platform/tree/main/roles/iso_rhel_download
 # downloads RHEL install DVD ISO files. 
@@ -63,7 +65,7 @@ export ANSIBLE_GALAXY_SERVER_AUTOMATION_HUB_TOKEN=eyJhbGciOi...(about 800 more c
 #
 # Open the API token page. 
 #   https://access.redhat.com/management/api
-# Click the button to generate a token.
+# Click the "Generate Token" button to generate a token.
 # Copy the token.
 # Paste the token here. 
 # The playbook will copy the value from this environment variable.
@@ -108,6 +110,8 @@ configure_host_os() {
      # Uses Simple Content Access, no need to attach a subscription
      # Package update
      sudo dnf -y update
+     # check if reboot required
+     sudo dnf -y install python3-tracer
      tracer
      RET_TRACER=$?
      if [ $RET_TRACER -eq 104 ]
@@ -115,7 +119,7 @@ configure_host_os() {
          sudo systemctl reboot
      fi
      # Set hostname 
-     # hostnamectl hostname host.$LAB_SOURCE_DOMAIN
+     sudo hostnamectl hostname host.$LAB_SOURCE_DOMAIN
      # Enable nested virtualization? 
      # In /etc/modprobe.d/kvm.conf 
      # options kvm_amd nested=1
