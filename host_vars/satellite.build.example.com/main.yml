@@ -31,9 +31,9 @@ lv_var: 245760
 nics: 
 -  
   name: enp1s0 
-  mac: "{{ lab_mac_prefix }}:00:05"
-  net: "{{ lab_libvirt_name }}"
-  ip: "{{ lab_net_prefix }}.5"
+  mac: "{{ lab_source_mac_prefix }}:00:05"
+  net: "{{ lab_source_libvirt_name }}"
+  ip: "{{ lab_source_net_prefix }}.5"
 
 # firewall
 # Command 'firewall-offline-cmd' uses XML files in /usr/lib/firewalld/services/.
@@ -43,7 +43,7 @@ net_services:
 
 # OS
 host: satellite
-fqdn: "{{ host }}.{{ lab_domain }}"
+fqdn: "{{ host }}.{{ lab_source_domain }}"
 RPMs: []
 
 # kickstart

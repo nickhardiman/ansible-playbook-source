@@ -72,7 +72,7 @@ GIT_USER=nick
 
 
 # CA name to go in the certificate. 
-# !!! should include lab_domain value
+# !!! should include lab_source_domain value
 LAB_NET_SHORT_NAME=build
 LAB_DOMAIN=$LAB_NET_SHORT_NAME.example.com
 CA_FQDN=ca.$LAB_DOMAIN

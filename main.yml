@@ -1,54 +1,52 @@
 ---
 - ansible.builtin.import_playbook: machine-hypervisor.yml
-# helper utilities
-- ansible.builtin.import_playbook: image-gateway.yml
-- ansible.builtin.import_playbook: template-to-machine.yml
-  vars:
-    host_to_start: gateway.build.example.com
-# Red Hat Identity Manager
-- ansible.builtin.import_playbook: image-id.yml
-- ansible.builtin.import_playbook: template-to-machine.yml
-  vars:
-    host_to_start: id.build.example.com
 
-# Red Hat Satellite
-- ansible.builtin.import_playbook: image-satellite.yml
-- ansible.builtin.import_playbook: satellite-install.yml
-- ansible.builtin.import_playbook: satellite-content.yml
-- ansible.builtin.import_playbook: satellite-lifecycle.yml
-- ansible.builtin.import_playbook: satellite-provision.yml
+
+# Internet gateway
+- ansible.builtin.import_playbook: vm-kickstart.yml
+  vars:
+    host_to_build: gateway.source.example.com
+- ansible.builtin.import_playbook: roles-gateway.yml
+- ansible.builtin.import_playbook: template-to-machine.yml
+  vars:
+    host_to_start: gateway.source.example.com
+
+
+# Red Hat Identity Manager Replica
+- ansible.builtin.import_playbook: vm-kickstart.yml
+  vars:
+    host_to_build: idreplica.source.example.com
+- ansible.builtin.import_playbook: roles-idreplica.yml
 - ansible.builtin.import_playbook: machine-to-template.yml
   vars:
-    host_to_image: satellite.build.example.com
+    host_to_image: aapee.source.example.com
 - ansible.builtin.import_playbook: template-to-machine.yml
   vars:
-    host_to_start: satellite.build.example.com
+    host_to_start: idreplica.source.example.com
 
 
-# AAP (Ansible Automation Platform)
-# AAP PAH (Private Automation Hub)
+# Red Hat Satellite Capsule
+- ansible.builtin.import_playbook: image-capsule.yml
+- ansible.builtin.import_playbook: machine-to-template.yml
+  vars:
+    host_to_image: capsule.source.example.com
+- ansible.builtin.import_playbook: machine-to-template.yml
+  vars:
+    host_to_image: aapee.source.example.com
+- ansible.builtin.import_playbook: template-to-machine.yml
+  vars:
+    host_to_start: capsule.source.example.com
+
+
+# AAP (Ansible Automation Platform) Execution Environment Node
 - ansible.builtin.import_playbook: vm-kickstart.yml
   vars:
-    host_to_build: aaphub.build.example.com
-- ansible.builtin.import_playbook: roles-aaphub.yml
-# AAP Controller
-- ansible.builtin.import_playbook: vm-kickstart.yml
-  vars:
-    host_to_build: aapcontrol.build.example.com
-- ansible.builtin.import_playbook: roles-aapcontrol.yml
-# Install and configure AAP
-- ansible.builtin.import_playbook: app-aap-install.yml
-- ansible.builtin.import_playbook: app-aap-configure.yml
+    host_to_build: aapee.source.example.com
+- ansible.builtin.import_playbook: roles-aapee.yml
 # VM template
 - ansible.builtin.import_playbook: machine-to-template.yml
   vars:
-    host_to_image: aaphub.build.example.com
+    host_to_image: aapee.source.example.com
 - ansible.builtin.import_playbook: template-to-machine.yml
   vars:
-    host_to_start: aaphub.build.example.com
-- ansible.builtin.import_playbook: machine-to-template.yml
-  vars:
-    host_to_image: aapcontrol.build.example.com
-- ansible.builtin.import_playbook: template-to-machine.yml
-  vars:
-    host_to_start: aapcontrol.build.example.com
+    host_to_start: aapee.source.example.com

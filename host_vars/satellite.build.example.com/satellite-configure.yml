@@ -5,7 +5,7 @@
 # many things are defined inline in the playbook. 
 
 # credentials and more
-sat_server_url: "https://satellite.{{ lab_domain }}"
+sat_server_url: "https://satellite.{{ lab_source_domain }}"
 sat_admin_user: "admin"
 sat_admin_pass: "Password;1"
 sat_organization: Default Organization

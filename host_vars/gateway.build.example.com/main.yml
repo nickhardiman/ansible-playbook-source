@@ -21,10 +21,10 @@ nics:
   # eg. 192.168.1.234
 - 
   name: enp2s0
-  mac: "{{ lab_mac_prefix }}:00:03"
-  net: "{{ lab_libvirt_name }}"
+  mac: "{{ lab_source_mac_prefix }}:00:03"
+  net: "{{ lab_source_libvirt_name }}"
   # IP is static
-  ip: "{{ lab_net_prefix }}.3"
+  ip: "{{ lab_source_net_prefix }}.3"
 
 net_services:
 - dns
@@ -34,7 +34,7 @@ net_services:
 
 # OS
 host: gateway
-fqdn: "{{ host }}.{{ lab_domain }}"
+fqdn: "{{ host }}.{{ lab_source_domain }}"
 RPMs:
   - cockpit
   - httpd

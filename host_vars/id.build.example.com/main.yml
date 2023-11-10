@@ -19,13 +19,13 @@
 nics:
 -
   name: enp1s0
-  mac: "{{ lab_mac_prefix }}:00:04"
-  net: "{{ lab_libvirt_name }}"
+  mac: "{{ lab_source_mac_prefix }}:00:04"
+  net: "{{ lab_source_libvirt_name }}"
   # !!! get rid of this?
   # used in
   # ansible_collections/nick/platform/roles/hosts_record/tasks/main.yml
   # interface IP provided by DHCP, prob. shouldnt be here too.
-  ip: "{{ lab_net_prefix }}.4"
+  ip: "{{ lab_source_net_prefix }}.4"
 
 # firewall
 # Command 'firewall-offline-cmd' uses XML files in /usr/lib/firewalld/services/.
@@ -35,7 +35,7 @@ net_services:
 
 # OS
 host: id
-fqdn: "{{ host }}.{{ lab_domain }}"
+fqdn: "{{ host }}.{{ lab_source_domain }}"
 RPMs:
   - cockpit
   - ipa-server

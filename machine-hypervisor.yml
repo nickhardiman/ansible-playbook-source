@@ -82,7 +82,7 @@
         name: rhel-system-roles
         state: present
 
-    # Add a route to the virtual machines on host1
+    # Add a route to the virtual machines on other hosts
     # by changing the bridge profile.
     # requires gather_facts to set ansible_python
     # not convinced this finishes with re-activation "nmcli con up bridge-public0"
@@ -98,7 +98,22 @@
             # interface_name defaults to the connection name
             ip:
               route:
-                - network: 192.168.136.0
+                #   !!! hardcoded copies of a DHCP addresses. 
+                #   maybe ... 
+                #   expand inventory, add all hypervisors 
+                #   fix now-broken playbooks 
+                #   collect facts of the other hypervisors and use
+                #   hostvars['other hypervisor']['ansible_facts']['ansible_default_ipv4']['address']?
+                # source
+                # - network: 192.168.12.0
+                #   prefix: 24
+                #   gateway: 192.168.1.135
+                # build
+                - network: 192.168.13.0
+                  prefix: 24
+                  gateway: 192.168.1.98
+                # supply
+                - network: 192.168.14.0
                   prefix: 24
                   gateway: 192.168.1.195
               dhcp4: true

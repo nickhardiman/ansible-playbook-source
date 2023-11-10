@@ -78,8 +78,8 @@
   vars_files:
     - ~/vault-credentials.yml
   environment:
-    http_proxy: "http://gateway.{{ lab_domain }}:3128"
-    HTTPS_PROXY: "http://gateway.{{ lab_domain }}:3128"
+    http_proxy: "http://gateway.{{ lab_source_domain }}:3128"
+    HTTPS_PROXY: "http://gateway.{{ lab_source_domain }}:3128"
     no_proxy: localhost,127.0.0.1,example.com
   #
   pre_tasks:
@@ -93,13 +93,13 @@
     - name: "update /etc/hosts with gateway address"
       role: nick.platform.hosts_record
       vars:
-        h_ip_address: "{{ lab_net_prefix }}.3"
-        h_fqdn: "gateway.{{ lab_domain }}"
+        h_ip_address: "{{ lab_source_net_prefix }}.3"
+        h_fqdn: "gateway.{{ lab_source_domain }}"
         h_host: gateway
     - role: nick.platform.dns_client_of_gateway
     - role: nick.platform.cdn_repo_consumer
       vars:
-        server_proxy_hostname: "gateway.{{ lab_domain }}"
+        server_proxy_hostname: "gateway.{{ lab_source_domain }}"
         server_proxy_port: 3128
     - role: nick.platform.latest_packages
     - role: nick.platform.server_cert
@@ -108,13 +108,13 @@
       vars: 
         address:
           host:
-            mac: "{{ lab_mac_prefix }}:00:01"
+            mac: "{{ lab_source_mac_prefix }}:00:01"
             ip_last_octet: "1"
-            ipv4: "{{ lab_net_prefix + '.1' }}"
+            ipv4: "{{ lab_source_net_prefix + '.1' }}"
           gateway:
-            mac: "{{ lab_mac_prefix }}:00:03"
+            mac: "{{ lab_source_mac_prefix }}:00:03"
             ip_last_octet: "3"
-            ipv4: "{{ lab_net_prefix + '.3' }}"
+            ipv4: "{{ lab_source_net_prefix + '.3' }}"
     - role: nick.platform.cockpit_server
     - role: nick.platform.insights_client
 
