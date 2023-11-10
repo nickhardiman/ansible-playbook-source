@@ -34,7 +34,7 @@ net_services:
   - freeipa-4
 
 # OS
-host: id
+host: idreplica
 fqdn: "{{ host }}.{{ lab_source_domain }}"
 RPMs:
   - cockpit

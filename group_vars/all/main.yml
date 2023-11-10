@@ -6,16 +6,16 @@
 # For the remaining parts of these names and addresses, see each host's vars file eg.
 #   host_vars/gateway.build.example.com/main.yml
 #
-# Changing address means changing a few variables. eg.
-# "13" appears in three places here.
+# !!! Changing address means changing a few variables. eg.
+# "12" appears in three places here.
 lab_source_net_short_name: build
 lab_source_libvirt_name:   "net{{ lab_source_net_short_name }}0"
-lab_source_net_prefix:     "192.168.13"
-lab_source_mac_prefix:     "52:54:00:13"
+lab_source_net_prefix:     "192.168.12"
+lab_source_mac_prefix:     "52:54:00:12"
 lab_source_domain:         "{{ lab_source_net_short_name }}.example.com"
 # DNS Zone names in IPA Server
 lab_source_domain_forward: "{{ lab_source_domain }}."
-lab_source_domain_reverse: "13.168.192.in-addr.arpa."
+lab_source_domain_reverse: "12.168.192.in-addr.arpa."
 #
 public_net_short_name: public
 public_libvirt_name:   "net{{ public_net_short_name }}0"

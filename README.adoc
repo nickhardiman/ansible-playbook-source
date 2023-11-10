@@ -50,8 +50,8 @@ image::build-network.drawio.png[title="build network"]
 
 The https://github.com/nickhardiman/ansible-playbook-build/blob/main/group_vars/all/main.yml[defaults file] defines a lot of values. 
 For instance, most 
-MAC addresses are set to ** 52:54:00:13:00:* **,  and 
-IPv4 addresses are set to ** 192.168.13.* **. 
+MAC addresses are set to ** 52:54:00:12:00:* **,  and 
+IPv4 addresses are set to ** 192.168.12.* **. 
 
 .guests attached to bridges
 [%header,format=csv]
@@ -61,13 +61,12 @@ name,         interface, MAC,               IP,              domain
 host,      enp1s0,    52:54:00:12:00:02 (!!! failed to override real address), (another address from the home router's pool),     home
 gateway,      enp1s0,    52:54:00:12:00:03, (another address from the home router's pool),     home
 
-*netbuild0*,  *brbuild0*,   52:54:00:13:00:01, 192.168.13.1,   build.example.com
- ,           ,           52:54:00:13:00:02, 192.168.13.2,   build.example.com
-gateway,      enp2s0,    52:54:00:13:00:03, 192.168.13.3,   build.example.com
-id,           enp1s0,    52:54:00:13:00:04, 192.168.13.4,   build.example.com
-satellite,    enp1s0,    52:54:00:13:00:05, 192.168.13.5,   build.example.com
-aaphub,       enp1s0,    52:54:00:13:00:06, 192.168.13.6,   build.example.com
-aapcontrol,   enp1s0,    52:54:00:13:00:07, 192.168.13.7,   build.example.com
+*netbuild0*,  *brbuild0*, 52:54:00:12:00:01, 192.168.12.1,   source.example.com
+      ,             ,     52:54:00:12:00:02, 192.168.12.2,   source.example.com
+gateway,      enp2s0,     52:54:00:12:00:03, 192.168.12.3,   source.example.com
+idreplica,    enp1s0,     52:54:00:12:00:04, 192.168.12.4,   source.example.com
+capsule,      enp1s0,     52:54:00:12:00:05, 192.168.12.5,   source.example.com
+aapee,        enp1s0,     52:54:00:12:00:06, 192.168.12.6,   source.example.com
 |===
 
 

@@ -42,7 +42,7 @@ net_services:
   - RH-Satellite-6
 
 # OS
-host: satellite
+host: capsule
 fqdn: "{{ host }}.{{ lab_source_domain }}"
 RPMs: []
 
