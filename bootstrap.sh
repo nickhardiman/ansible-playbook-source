@@ -1,13 +1,18 @@
 #-------------------------
-# Set up the hypervisor 
-# Instructions 
+# Set up the hypervisor.
+# Full description is available at 
+# https://github.com/nickhardiman/ansible-playbook-source
 
 # !!! make a new role machine-hypervisor-configure.yml
 # and migrate much of this crap to that and to collection roles. 
 
-# Log into your RHEL 9 install host.
+# Instructions 
+#
+# Get a PC.
+# Install RHEL 9. Minimal install is fine. 
+# Log into your new RHEL 9 host.
 # Download this script.
-#   curl -O https://raw.githubusercontent.com/nickhardiman/ansible-playbook-build/main/bootstrap.sh 
+#   curl -O https://raw.githubusercontent.com/nickhardiman/ansible-playbook-source/main/bootstrap.sh 
 # Read it. 
 # Edit and change my details to yours.
 # More details below. 
@@ -30,7 +35,7 @@
 # Check your account works by logging in at https://access.redhat.com/.
 # You can register up to 16 physical or virtual nodes.
 # This inventory lists 8.
-# (https://github.com/nickhardiman/ansible-playbook-build/blob/main/inventory.ini)
+# (https://github.com/nickhardiman/ansible-playbook-source/blob/main/inventory.ini)
 RHSM_USER=my_developer_user
 RHSM_PASSWORD='my developer password'
 
@@ -73,9 +78,9 @@ GIT_USER=nick
 
 # CA name to go in the certificate. 
 # !!! should include lab_source_domain value
-LAB_NET_SHORT_NAME=build
-LAB_DOMAIN=$LAB_NET_SHORT_NAME.example.com
-CA_FQDN=ca.$LAB_DOMAIN
+LAB_SOURCE_NET_SHORT_NAME=source
+LAB_SOURCE_DOMAIN=$LAB_SOURCE_NET_SHORT_NAME.example.com
+CA_FQDN=ca.$LAB_SOURCE_DOMAIN
 
 # That's it. 
 # No need to change anything below here. 
@@ -110,7 +115,7 @@ configure_host_os() {
          sudo systemctl reboot
      fi
      # Set hostname 
-     # hostnamectl hostname host.$LAB_DOMAIN
+     # hostnamectl hostname host.$LAB_SOURCE_DOMAIN
      # Enable nested virtualization? 
      # In /etc/modprobe.d/kvm.conf 
      # options kvm_amd nested=1
@@ -134,12 +139,12 @@ setup_git() {
 
 
 does_ansible_user_exist() {
-     ansible_user_exists=false
+     ANSIBLE_USER_EXISTS=false
      id ansible_user
      res_id=$?
      if [ $res_id -eq 0 ]
      then
-       ansible_user_exists=true
+       ANSIBLE_USER_EXISTS=true
      fi
 }
 
@@ -228,12 +233,13 @@ clone_my_ansible_collection() {
      git clone https://github.com/nickhardiman/ansible-collection-platform.git platform
 }
 
+
 clone_my_ansible_playbook() {
      # Get my playbook.
      mkdir -p ~/ansible/playbooks/
      cd ~/ansible/playbooks/
-     git clone https://github.com/nickhardiman/ansible-playbook-$LAB_NET_SHORT_NAME.git
-     cd ansible-playbook-$LAB_NET_SHORT_NAME/
+     git clone https://github.com/nickhardiman/ansible-playbook-$LAB_SOURCE_NET_SHORT_NAME.git
+     cd ansible-playbook-$LAB_SOURCE_NET_SHORT_NAME/
 }
 
 
@@ -250,13 +256,12 @@ download_ansible_libraries() {
     # check 
     ls /usr/share/ansible/collections/ansible_collections/community/
     # Install other collections to ~/.ansible/collections/
-    # (https://github.com/nickhardiman/ansible-playbook-build/blob/main/ansible.cfg#L13)
-    cd ~/ansible/playbooks/ansible-playbook-$LAB_NET_SHORT_NAME/
+    # (https://github.com/nickhardiman/ansible-playbook-source/blob/main/ansible.cfg#L13)
+    cd ~/ansible/playbooks/ansible-playbook-$LAB_SOURCE_NET_SHORT_NAME/
     ansible-galaxy collection install -r collections/requirements.yml 
     # Install roles. 
     ansible-galaxy role install -r roles/requirements.yml 
 }
-
 
 
 add_rhsm_account_to_vault () {
@@ -309,7 +314,7 @@ setup_ca_certificate() {
 # !!! not working
 #         --extra-vars="user_ansible_public_key=$USER_ANSIBLE_PUBLIC_KEY" \
 run_playbook() {
-    cd ~/ansible/playbooks/ansible-playbook-$LAB_NET_SHORT_NAME/
+    cd ~/ansible/playbooks/ansible-playbook-$LAB_SOURCE_NET_SHORT_NAME/
     # create machines
     ansible-playbook \
         --vault-pass-file ~/my-vault-pass  \
@@ -323,7 +328,7 @@ run_playbook() {
 configure_host_os
 setup_git
 does_ansible_user_exist
-if $ansible_user_exists 
+if $ANSIBLE_USER_EXISTS 
 then
     echo ansible_user already exists
 else
