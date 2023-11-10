@@ -1,20 +1,15 @@
-= Ansible playbook for turning a PC into a set of build VMs
+= Ansible playbook for turning a PC into a set of source VMs
 
-Ansible helps me build my home lab. 
+Ansible helps me assemble my home lab. 
 This playbook turns a PC running RHEL 9 into a hypervisor running a pile-load (that's the technical term) of Virtual Machines. 
 Each VM runs a set of services that support my home lab. 
 
 . *gateway* hosts Bind, Squid, Postfix, NFS, haproxy, cockpit
-. *satellite* VM provisioning, RPM repos, maybe DHCP
-. *aapcontrol* Ansible Automation Platform v2 Controller
-. *aaphub* Ansible Private Automation Hub
-. *id* hosts Red Hat IDM (LDAP, CA, DNS)
+. *idreplica* replica for Red Hat IDM (LDAP, CA, DNS)
+. *capsule* proxy for Red Hat Satellite
+. *aapee* Ansible Automation Platform Execution Environment node
 
 Under construction. Sections marked with !!! and ??? are notes to self. 
-
-Build gateway and satellite. 
-
-Use satellite to build the rest. 
 
 
 == hardware
@@ -40,15 +35,15 @@ RHEL 9, fresh minimal install
 
 A bootstrap shell script kicks off the install. 
 See instructions in 
-https://github.com/nickhardiman/ansible-playbook-build/blob/main/bootstrap.sh[bootstrap.sh].
+https://github.com/nickhardiman/ansible-playbook-source/blob/main/bootstrap.sh[bootstrap.sh].
 
 
 
 == Virtual Machines
 
-image::build-network.drawio.png[title="build network"] 
+image::source-network.drawio.png[title="source network"] 
 
-The https://github.com/nickhardiman/ansible-playbook-build/blob/main/group_vars/all/main.yml[defaults file] defines a lot of values. 
+The https://github.com/nickhardiman/ansible-playbook-source/blob/main/group_vars/all/main.yml[defaults file] defines a lot of values. 
 For instance, most 
 MAC addresses are set to ** 52:54:00:12:00:* **,  and 
 IPv4 addresses are set to ** 192.168.12.* **. 
@@ -61,7 +56,7 @@ name,         interface, MAC,               IP,              domain
 host,      enp1s0,    52:54:00:12:00:02 (!!! failed to override real address), (another address from the home router's pool),     home
 gateway,      enp1s0,    52:54:00:12:00:03, (another address from the home router's pool),     home
 
-*netbuild0*,  *brbuild0*, 52:54:00:12:00:01, 192.168.12.1,   source.example.com
+*netsource0*,  *brsource0*, 52:54:00:12:00:01, 192.168.12.1,   source.example.com
       ,             ,     52:54:00:12:00:02, 192.168.12.2,   source.example.com
 gateway,      enp2s0,     52:54:00:12:00:03, 192.168.12.3,   source.example.com
 idreplica,    enp1s0,     52:54:00:12:00:04, 192.168.12.4,   source.example.com
@@ -84,7 +79,7 @@ Only tested on a box with one ethernet interface, plugged into the network.
 === edit the bootstrap script
 
 Script 
-https://github.com/nickhardiman/ansible-playbook-build/blob/main/bootstrap.sh[bootstrap.sh] 
+https://github.com/nickhardiman/ansible-playbook-source/blob/main/bootstrap.sh[bootstrap.sh] 
 sets up everything on a freshly installed host. 
 
 * Log into the hypervisor machine.
@@ -92,7 +87,7 @@ sets up everything on a freshly installed host.
 
 [source,shell]
 ....
-curl -O https://raw.githubusercontent.com/nickhardiman/ansible-playbook-build/main/bootstrap.sh
+curl -O https://raw.githubusercontent.com/nickhardiman/ansible-playbook-source/main/bootstrap.sh
 ....
 
 * Read the script 

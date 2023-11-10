@@ -2,7 +2,7 @@
 
 # create a few variables like "volume_image_file_exists"
 - name: Add image facts to hostvars
-  hosts: aaphub
+  hosts: aapcontrol
   become: true
   gather_facts: false
   roles:
@@ -13,7 +13,7 @@
 # If there is no base file, assume configuration didn't complete and 
 # we are good to go again.
 - name: Configure new server machine
-  hosts: aaphub
+  hosts: aapcontrol
   become: true
   gather_facts: false
   serial: 1
@@ -43,8 +43,8 @@
     - role: nick.platform.dns_client_of_id
     - role: nick.platform.dns_record
       vars:
-        # Create a DNS A record like "aaphub IN A 192.168.123.45"
-        # Create a DNS PTR record like "45 IN PTR aaphub.build.example.com."
+        # Create a DNS A record like "myhost IN A 192.168.123.45"
+        # Create a DNS PTR record like "45 IN PTR myhost.mydomain.example.com."
         record_a_name: "{{ inventory_hostname | regex_replace( '.' + lab_source_domain) }}"
         record_a_value: "{{ nics[0]['ip'] }}"
         record_ptr_name: "{{ nics[0]['ip'].split('.')[3] }}"
