@@ -16,13 +16,21 @@
 # https://access.redhat.com/documentation/en-us/red_hat_satellite/6.13/html/installing_satellite_server_in_a_connected_network_environment/configuring_external_authentication_satellite#External_Authentication_for_Provisioned_Hosts_satellite
 
 
-
+# create a few variables like "volume_image_file_exists"
+- name: Add image facts to hostvars
+  hosts: idreplica
+  become: true
+  gather_facts: false
+  roles:
+    - name: "check for existing images"
+      role: nick.platform.libvirt_image_facts
+      delegate_to: "{{ groups['hypervisor'][0] }}"
 
 
 # If there is no base file, assume configuration didn't complete and 
 # we are good to go again.
 - name: Configure new server machine
-  hosts: id
+  hosts: idreplica
   become: true
   gather_facts: false
   serial: 1

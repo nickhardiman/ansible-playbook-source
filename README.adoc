@@ -62,6 +62,8 @@ gateway,      enp2s0,     52:54:00:12:00:03, 192.168.12.3,   source.example.com
 idreplica,    enp1s0,     52:54:00:12:00:04, 192.168.12.4,   source.example.com
 capsule,      enp1s0,     52:54:00:12:00:05, 192.168.12.5,   source.example.com
 aapee,        enp1s0,     52:54:00:12:00:06, 192.168.12.6,   source.example.com
+git,          enp1s0,     52:54:00:12:00:07, 192.168.12.7,   source.example.com
+secret,       enp1s0,     52:54:00:12:00:08, 192.168.12.8,   source.example.com
 |===
 
 
