@@ -57,5 +57,7 @@
         server_proxy_port: 3128
     - role: nick.platform.latest_packages
     - role: nick.platform.smtp_client
-    - role: geerlingguy.gitlab
+    # use this instead
+    #   https://www.redhat.com/en/blog/installing-gitlab-ce-rhel-9
+    # - role: geerlingguy.gitlab
 
