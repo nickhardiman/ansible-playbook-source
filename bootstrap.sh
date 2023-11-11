@@ -57,11 +57,19 @@ export ANSIBLE_GALAXY_SERVER_AUTOMATION_HUB_TOKEN=eyJhbGciOi...(about 800 more c
 
 
 # 3. Set API token OFFLINE_TOKEN.
-# Authenticate to Red Hat portal using a "Red Hat API Token".
+# Anyone with an RHSM account can use Red Hat's APIs.
+# You can download Red Hat software after authenticating with an OAuth2 token.
+# For no good reason, both the API token and the Hub token are called "offline tokens".
 # After the hypervisor is installed, 
 # the role https://github.com/nickhardiman/ansible-collection-platform/tree/main/roles/iso_rhel_download
 # downloads RHEL install DVD ISO files. 
-# The role uses one of the Red Hat APIs, which requires an API token.
+# The "iso_rhel_download" role uses the "Subscription Management" API.
+# The Subscription Management API endpoint has a Swagger API documentation page here: 
+#   https://access.redhat.com/management/api/rhsm
+# Try executing: Get /images/rhel/{Version}/{Arch} where Version is 9.2 and Arch is x86_64.
+# For more information, see this article. 
+#   https://access.redhat.com/articles/3626371
+#   Using APIs for Red Hat services
 #
 # Open the API token page. 
 #   https://access.redhat.com/management/api
@@ -111,6 +119,8 @@ configure_host_os() {
      # Package update
      sudo dnf -y update
      # check if reboot required
+     # !!! problem: reboot stops script run.
+     # workaround: rerun script.
      sudo dnf -y install python3-tracer
      tracer
      RET_TRACER=$?

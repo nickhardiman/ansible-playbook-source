@@ -49,3 +49,29 @@
 - ansible.builtin.import_playbook: template-to-machine.yml
   vars:
     host_to_start: aapee.source.example.com
+
+
+# GitLab
+- ansible.builtin.import_playbook: vm-kickstart.yml
+  vars:
+    host_to_build: git.source.example.com
+- ansible.builtin.import_playbook: roles-git.yml
+- ansible.builtin.import_playbook: machine-to-template.yml
+  vars:
+    host_to_image: git.source.example.com
+- ansible.builtin.import_playbook: template-to-machine.yml
+  vars:
+    host_to_start: git.source.example.com
+
+
+# Hashicorp Vault, CyberArk?
+- ansible.builtin.import_playbook: vm-kickstart.yml
+  vars:
+    host_to_build: secret.source.example.com
+- ansible.builtin.import_playbook: roles-secret.yml
+- ansible.builtin.import_playbook: machine-to-template.yml
+  vars:
+    host_to_image: secret.source.example.com
+- ansible.builtin.import_playbook: template-to-machine.yml
+  vars:
+    host_to_start: secret.source.example.com

@@ -12,6 +12,18 @@
   roles:
     - role: nick.platform.libvirt_host
     - role: nick.platform.libvirt_storage
+    # !!! problem: playbook freezes here.
+    #     TASK [rhel-system-roles.network : Configure networking connection profiles] ****** 
+    # workaround: 
+    #   interrup the playbook. ^C 
+    #   delete the now-useless SSH control path. rm -rf /home/nick/.ansible/cp/*
+    #   restart the playbook 
+    # possible solutions:
+    # 1 Separate ansible.cfg for these hypervisor network changes, containing
+    #   [ssh_connection]
+    #   ssh_args = -o ControlMaster=no
+    # 2 ansible-pull playbook to run locally on hypervisor
+    #
     - role: nick.platform.libvirt_net_public
     - role: nick.platform.libvirt_net_private
     # download RHEL 9.2 DVD ISO
