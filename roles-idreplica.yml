@@ -2,6 +2,7 @@
 # https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html-single/installing_identity_management/index
 
 # The "idreplica" machine has one interface on the private libvirt network.
+# No special routing required
 # It uses gateway as a web proxy.
 # it hosts Red Hat IDM (Identity Management) services
 # https://access.redhat.com/products/identity-management/
@@ -78,29 +79,5 @@
     - role: nick.platform.insights_client
 
 
-
 # smoke tests 
 # !!! add tests
-
-
-- name: Keep image and config of the new machine
-  hosts: id
-  become: true
-  gather_facts: false
-  serial: 1
-  #
-  pre_tasks:
-    - name: "If base image exists, stop here"
-      ansible.builtin.meta: end_host
-      when: volume_base_file_exists
-  #
-  roles: 
-    # create $FQDN-base.qcow2 image and $FQDN.xml config.
-    # if the $FQDN-base.qcow2 file already exists, this role does not change anything. 
-    - name: "copy the volume file and config, then delete the machine"
-      role: nick.platform.libvirt_machine_image
-      delegate_to: "{{ groups['hypervisor'][0] }}"
-
-
-# Create virtual machine template
-# !!! see image-gateway.yml 

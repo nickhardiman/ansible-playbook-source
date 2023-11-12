@@ -101,6 +101,12 @@ CA_FQDN=ca.$LAB_SOURCE_DOMAIN
 # https://phoenixnap.com/kb/bash-function
 
 
+# !!! multiple boxes with same hostname eg. "host",  "gateway". 
+# Use FQDN in prompt. 
+# in /etc/bashrc or ~/.bashrc, replace 
+#     [ "$PS1" = "\\s-\\v\\\$ " ] && PS1="[\u@\h \W]\\$ "
+# with
+#     [ "$PS1" = "\\s-\\v\\\$ " ] && PS1="[\u@\H \W]\\$ "
 configure_host_os() {
      echo get the hypervisor host ready
      # SSH - generate RSA keys for me
@@ -109,17 +115,29 @@ configure_host_os() {
      sudo ssh-keygen -f ~/.ssh/id_rsa -q -N ""
      # SSH - extra security
      # If SSH service on this box is accessible to the Internet
-     # Use key pairs only, disable password login
+     # Use key pairs only
+     # disable password login
      # For more information, run 'man sshd_config'
      sudo cp $HOME/.ssh/authorized_keys /root/.ssh/authorized_keys
+     # !!! many runs of this script will add many copies of this line 
      sudo su -c 'echo "AuthenticationMethods publickey" >> /etc/ssh/sshd_config'
      # support
      sudo subscription-manager register --username=$RHSM_USER --password=$RHSM_PASSWORD
      # Uses Simple Content Access, no need to attach a subscription
+
+     # Set hostname 
+     sudo hostnamectl hostname host.$LAB_SOURCE_DOMAIN
+     # Enable nested virtualization? 
+     # In /etc/modprobe.d/kvm.conf 
+     # options kvm_amd nested=1
+}
+
+
+# !!! problem: reboot stops script run.
+reboot_tracer() {
      # Package update
      sudo dnf -y update
      # check if reboot required
-     # !!! problem: reboot stops script run.
      # workaround: rerun script.
      sudo dnf -y install python3-tracer
      tracer
@@ -128,13 +146,7 @@ configure_host_os() {
      then
          sudo systemctl reboot
      fi
-     # Set hostname 
-     sudo hostnamectl hostname host.$LAB_SOURCE_DOMAIN
-     # Enable nested virtualization? 
-     # In /etc/modprobe.d/kvm.conf 
-     # options kvm_amd nested=1
 }
-
 
 
 setup_git() {
@@ -229,9 +241,9 @@ check_ansible_user() {
 }
 
 
-install_ansible_core() {
-     # install Ansible
-     sudo dnf install --assumeyes ansible-core
+install_ansible_rpms() {
+     # install Ansible from the appstream repo
+     sudo dnf install --assumeyes ansible-core ansible-freeipa
 }
 
 
@@ -340,6 +352,7 @@ run_playbook() {
 # main 
 
 configure_host_os
+reboot_tracer
 setup_git
 does_ansible_user_exist
 if $ANSIBLE_USER_EXISTS 
@@ -352,7 +365,7 @@ else
 fi
 check_ansible_user
 copy_ansible_user_public_key
-install_ansible_core
+install_ansible_rpms
 clone_my_ansible_collection
 clone_my_ansible_playbook
 download_ansible_libraries

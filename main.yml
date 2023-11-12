@@ -7,6 +7,9 @@
   vars:
     host_to_build: gateway.source.example.com
 - ansible.builtin.import_playbook: roles-gateway.yml
+- ansible.builtin.import_playbook: machine-to-template.yml
+  vars:
+    host_to_image: gateway.source.example.com
 - ansible.builtin.import_playbook: template-to-machine.yml
   vars:
     host_to_start: gateway.source.example.com
@@ -19,7 +22,7 @@
 - ansible.builtin.import_playbook: roles-idreplica.yml
 - ansible.builtin.import_playbook: machine-to-template.yml
   vars:
-    host_to_image: aapee.source.example.com
+    host_to_image: idreplica.source.example.com
 - ansible.builtin.import_playbook: template-to-machine.yml
   vars:
     host_to_start: idreplica.source.example.com
