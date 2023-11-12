@@ -2,6 +2,8 @@
 # These values override defaults.
 # default variables and their values are listed here. 
 #   https://github.com/nickhardiman/ansible-collection-platform/blob/main/roles/libvirt_machine_kickstart/defaults/main.yml
+# System Requirements
+# https://access.redhat.com/documentation/en-us/red_hat_satellite/6.14/html-single/installing_capsule_server/index#preparing-environment-for-capsule-installation
 
 # virt-install
 install_iso: /var/lib/libvirt/images/rhel-8.8-x86_64-dvd.iso
@@ -10,7 +12,7 @@ os_variant: rhel8.5
 # compute
 cpus: 4
 # size in MiB
-ram: 16384
+ram: 12288
 
 # storage
 # size in GiB
