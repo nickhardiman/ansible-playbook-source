@@ -15,6 +15,10 @@
 #
 # configure FreeIPA client
 # https://access.redhat.com/documentation/en-us/red_hat_satellite/6.13/html/installing_satellite_server_in_a_connected_network_environment/configuring_external_authentication_satellite#External_Authentication_for_Provisioned_Hosts_satellite
+# 
+# Products & Services > Product Documentation > Red Hat Enterprise Linux > 9 > Installing Identity Management
+# Chapter 27. Installing an Identity Management client using an Ansible playbook
+# https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html/installing_identity_management/installing-an-identity-management-client-using-an-ansible-playbook_installing-identity-management
 
 
 # create a few variables like "volume_image_file_exists"

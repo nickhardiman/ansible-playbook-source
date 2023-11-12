@@ -45,25 +45,25 @@ image::source-network.drawio.png[title="source network"]
 
 The https://github.com/nickhardiman/ansible-playbook-source/blob/main/group_vars/all/main.yml[defaults file] defines a lot of values. 
 For instance, most 
-MAC addresses are set to ** 52:54:00:12:00:* **,  and 
-IPv4 addresses are set to ** 192.168.12.* **. 
+MAC addresses are set to ** 52:54:00:11:00:* **,  and 
+IPv4 addresses are set to ** 192.168.11.* **. 
 
 .guests attached to bridges
 [%header,format=csv]
 |===
 name,         interface, MAC,               IP,              domain
-*netpublic0*,    *brpublic0*,    52:54:00:12:00:01, (IPv4 address chosen by the home router),     home
-host,      enp1s0,    52:54:00:12:00:02 (!!! failed to override real address), (another address from the home router's pool),     home
-gateway,      enp1s0,    52:54:00:12:00:03, (another address from the home router's pool),     home
+*netpublic0*,    *brpublic0*, 52:54:00:10:00:01, (IPv4 address chosen by the home router),     home
+host,              enp1s0,    52:54:00:10:00:02 (!!! failed to override real address), (another address from the home router's pool),     home
+gateway,           enp1s0,    52:54:00:10:00:03, (another address from the home router's pool),     home
 
-*netsource0*,  *brsource0*, 52:54:00:12:00:01, 192.168.12.1,   source.example.com
-      ,             ,     52:54:00:12:00:02, 192.168.12.2,   source.example.com
-gateway,      enp2s0,     52:54:00:12:00:03, 192.168.12.3,   source.example.com
-idreplica,    enp1s0,     52:54:00:12:00:04, 192.168.12.4,   source.example.com
-capsule,      enp1s0,     52:54:00:12:00:05, 192.168.12.5,   source.example.com
-aapee,        enp1s0,     52:54:00:12:00:06, 192.168.12.6,   source.example.com
-git,          enp1s0,     52:54:00:12:00:07, 192.168.12.7,   source.example.com
-secret,       enp1s0,     52:54:00:12:00:08, 192.168.12.8,   source.example.com
+*netsource0*,    *brsource0*, 52:54:00:11:00:01, 192.168.11.1,   source.example.com
+         ,              ,     52:54:00:11:00:02, 192.168.11.2,   source.example.com
+gateway,          enp2s0,     52:54:00:11:00:03, 192.168.11.3,   source.example.com
+idreplica,        enp1s0,     52:54:00:11:00:04, 192.168.11.4,   source.example.com
+capsule,          enp1s0,     52:54:00:11:00:05, 192.168.11.5,   source.example.com
+aapee,            enp1s0,     52:54:00:11:00:06, 192.168.11.6,   source.example.com
+git,              enp1s0,     52:54:00:11:00:07, 192.168.11.7,   source.example.com
+secret,           enp1s0,     52:54:00:11:00:08, 192.168.11.8,   source.example.com
 |===
 
 

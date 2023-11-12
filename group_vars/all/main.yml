@@ -14,7 +14,13 @@
 # 13 - build private 
 # 14 - supply public 
 # 15 - supply private 
-#
+
+public_net_short_name: public
+public_libvirt_name:   "net{{ public_net_short_name }}0"
+public_mac_prefix:     "52:54:00:10"
+public_nmcli_name:     "bridge-{{ public_net_short_name }}0"
+public_bridge_name:    "br{{ public_net_short_name }}0"
+
 # !!! start of refactor to have many sets of network variables (source, build, and supply)
 # !!! Changing address means changing a few variables. eg.
 # "11" appears in three places here.
@@ -26,12 +32,6 @@ lab_source_domain:         "{{ lab_source_net_short_name }}.example.com"
 # DNS Zone names in IPA Server
 lab_source_domain_forward: "{{ lab_source_domain }}."
 lab_source_domain_reverse: "11.168.192.in-addr.arpa."
-#
-public_net_short_name: public
-public_libvirt_name:   "net{{ public_net_short_name }}0"
-public_mac_prefix:     "52:54:00:10"
-public_nmcli_name:     "bridge-{{ public_net_short_name }}0"
-public_bridge_name:    "br{{ public_net_short_name }}0"
 
 # !!! ansible-collection-platform needs reworking
 lab_net_short_name: "{{ lab_source_net_short_name }}"
