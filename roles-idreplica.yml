@@ -56,25 +56,26 @@
         h_ip_address: "{{ lab_source_net_prefix }}.3"
         h_fqdn: "gateway.{{ lab_source_domain }}"
         h_host: gateway
-    - role: nick.platform.dns_client_of_gateway
-    - role: nick.platform.cdn_repo_consumer
+    - role: nick.platform.dns_client_of_id
+    - role: nick.platform.dns_record
       vars:
-        server_proxy_hostname: "gateway.{{ lab_source_domain }}"
-        server_proxy_port: 3128
+        # Create a DNS A record like "aapcontrol IN A 192.168.123.45"
+        # Create a DNS PTR record like "45 IN PTR aapcontrol.build.example.com."
+        record_a_name: "{{ inventory_hostname | regex_replace( '.' + lab_domain) }}"
+        record_a_value: "{{ nics[0]['ip'] }}"
+        record_ptr_name: "{{ nics[0]['ip'].split('.')[3] }}"
+        record_ptr_value: "{{ inventory_hostname + '.' }}"
+    - role: ipaclient
+      vars:
+        ipaadmin_principal: admin
+        ipaadmin_password:  "{{ default_password }}" 
+        ipaclient_domain: build.example.com
+        state: present
+    - role: nick.platform.satellite_repo_consumer
+      vars:
+        activationkey: ak-build-rhel-9
     - role: nick.platform.latest_packages
     - role: nick.platform.server_cert
-    - role: nick.platform.ipa_server
-    - role: nick.platform.dns_records
-      vars: 
-        address:
-          host:
-            mac: "{{ lab_source_mac_prefix }}:00:01"
-            ip_last_octet: "1"
-            ipv4: "{{ lab_source_net_prefix + '.1' }}"
-          gateway:
-            mac: "{{ lab_source_mac_prefix }}:00:03"
-            ip_last_octet: "3"
-            ipv4: "{{ lab_source_net_prefix + '.3' }}"
     - role: nick.platform.cockpit_server
     - role: nick.platform.insights_client
 
