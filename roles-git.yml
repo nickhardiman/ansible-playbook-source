@@ -19,10 +19,11 @@
   serial: 1
   vars_files:
     - ~/vault-credentials.yml
-  environment:
-    http_proxy: "http://gateway.{{ lab_domain }}:3128"
-    HTTPS_PROXY: "http://gateway.{{ lab_domain }}:3128"
-    no_proxy: localhost,127.0.0.1,example.com
+  # !!! insights-client fails with proxy vars
+  # environment:
+  #   http_proxy: "http://gateway.{{ lab_source_domain }}:3128"
+  #   HTTPS_PROXY: "http://gateway.{{ lab_source_domain }}:3128"
+  #   no_proxy: localhost,127.0.0.1,example.com
   #
   pre_tasks:
     - name: "If base image exists, stop here"
@@ -34,7 +35,6 @@
     - role: nick.platform.managed_node
     - name: "update /etc/hosts with gateway address"
       role: nick.platform.hosts_record
-      # !!! hardcoded
       vars:
         h_ip_address: "{{ lab_net_prefix }}.3"
         h_fqdn: "gateway.{{ lab_domain }}"
@@ -43,19 +43,24 @@
     - role: nick.platform.dns_client_of_id
     - role: nick.platform.dns_record
       vars:
-        # remove domain, leave host and maybe subdomain
-        # !!! hardcoded
+        # Create a DNS A record like "aapcontrol IN A 192.168.123.45"
+        # Create a DNS PTR record like "45 IN PTR aapcontrol.build.example.com."
         record_a_name: "{{ inventory_hostname | regex_replace( '.' + lab_domain) }}"
         record_a_value: "{{ nics[0]['ip'] }}"
-        # use the last octet only
         record_ptr_name: "{{ nics[0]['ip'].split('.')[3] }}"
-        # DNS is fussy about root domain '.'
         record_ptr_value: "{{ inventory_hostname + '.' }}"
-    - role: nick.platform.cdn_repo_consumer
+    - role: nick.platform.satellite_repo_consumer
       vars:
-        server_proxy_hostname: "gateway.{{ lab_domain }}"
-        server_proxy_port: 3128
+        activationkey: ak-build-rhel-9
     - role: nick.platform.latest_packages
+    - role: ipaclient
+      vars:
+        ipaadmin_principal: admin
+        ipaadmin_password:  "{{ default_password }}" 
+        ipaclient_domain: build.example.com
+        state: present
+    - role: nick.platform.cockpit_server
+    - role: nick.platform.insights_client
     - role: nick.platform.smtp_client
     # use this instead
     #   https://www.redhat.com/en/blog/installing-gitlab-ce-rhel-9
