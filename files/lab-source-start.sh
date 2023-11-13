@@ -3,7 +3,9 @@ for GUEST in \
   gateway.source.example.com     \
   idreplica.source.example.com   \
   capsule.source.example.com     \
-  aapee.source.example.com    
+  aapee.source.example.com       \
+  git.source.example.com         \
+  secret.source.example.com    
 do 
   sudo virsh start $GUEST
   sleep 10
