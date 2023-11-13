@@ -15,8 +15,8 @@
 nics:
 - 
   name: enp1s0
-  mac: "{{ public_mac_prefix }}:00:07"
-  net: "{{ public_libvirt_name }}"
+  mac: "{{ lab_source_mac_prefix }}:00:07"
+  net: "{{ lab_source_libvirt_name }}"
   ip: "{{ lab_source_net_prefix }}.7"
 
 net_services:
