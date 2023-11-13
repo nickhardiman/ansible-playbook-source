@@ -117,7 +117,7 @@
                 #   collect facts of the other hypervisors and use
                 #   hostvars['other hypervisor']['ansible_facts']['ansible_default_ipv4']['address']?
                 # source
-                # - network: 192.168.12.0
+                # - network: 192.168.11.0
                 #   prefix: 24
                 #   gateway: 192.168.1.135
                 # build
@@ -125,7 +125,7 @@
                   prefix: 24
                   gateway: 192.168.1.98
                 # supply
-                - network: 192.168.14.0
+                - network: 192.168.15.0
                   prefix: 24
                   gateway: 192.168.1.195
               dhcp4: true
