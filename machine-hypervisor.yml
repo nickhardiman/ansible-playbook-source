@@ -97,7 +97,9 @@
     # Add a route to the virtual machines on other hosts
     # by changing the bridge profile.
     # requires gather_facts to set ansible_python
-    # not convinced this finishes with re-activation "nmcli con up bridge-public0"
+    # CLI equivalent is 
+    #   nmcli connection modify bridge-public0 +ipv4.routes "192.168.15.0/24 192.168.1.195"
+    # !!! I'm not convinced this finishes with re-activation "nmcli con up bridge-public0".
     - name: Use rhel-system-role network
       ansible.builtin.include_role:
         name: rhel-system-roles.network
