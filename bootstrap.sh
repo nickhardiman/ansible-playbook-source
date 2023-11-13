@@ -247,7 +247,7 @@ install_ansible_rpms() {
 }
 
 
-clone_my_ansible_collection() {
+clone_my_ansible_collections() {
      # get my libvirt collection.
      # I'm not using ansible-galaxy because I am actively developing this role.
      # Check out the directive in ansible.cfg in some playbooks.
@@ -257,6 +257,7 @@ clone_my_ansible_collection() {
      #   fatal: destination path 'libvirt-host' already exists and is not an empty directory.
      # !!! not uploaded
      git clone https://github.com/nickhardiman/ansible-collection-platform.git platform
+     git clone https://github.com/nickhardiman/ansible-collection-app.git      app
 }
 
 
@@ -290,14 +291,19 @@ download_ansible_libraries() {
 }
 
 
-add_rhsm_account_to_vault () {
+add_secrets_to_vault () {
      # Create a new vault file.
      cp vault-credentials-plaintext.yml ~/vault-credentials.yml
      cat << EOF >>  ~/vault-credentials.yml
+# RHSM (Red Hat Subscription Management)
 rhsm_user: "$RHSM_USER"
 rhsm_password: "$RHSM_PASSWORD"
-# !!! testing, not about RHSM
+# SSH
 user_ansible_public_key: "$USER_ANSIBLE_PUBLIC_KEY"
+# Red Hat Automation Hub
+hub_token: $ANSIBLE_GALAXY_SERVER_AUTOMATION_HUB_TOKEN
+# Red Hat APIs
+api_token: $OFFLINE_TOKEN
 EOF
      # Encrypt the new file. 
      echo 'my vault password' >  ~/my-vault-pass
@@ -366,10 +372,10 @@ fi
 check_ansible_user
 copy_ansible_user_public_key
 install_ansible_rpms
-clone_my_ansible_collection
+clone_my_ansible_collections
 clone_my_ansible_playbook
 download_ansible_libraries
-add_rhsm_account_to_vault
+add_secrets_to_vault
 setup_ca_certificate
 run_playbook
 #-------------------------

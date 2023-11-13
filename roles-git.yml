@@ -62,7 +62,5 @@
     - role: nick.platform.cockpit_server
     - role: nick.platform.insights_client
     - role: nick.platform.smtp_client
-    # use this instead
-    #   https://www.redhat.com/en/blog/installing-gitlab-ce-rhel-9
-    # - role: geerlingguy.gitlab
+    - role: nick.app.install_gitlab
 
