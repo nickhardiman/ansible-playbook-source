@@ -1,8 +1,10 @@
 for GUEST in \
-  gateway.source.example.com     \
-  idreplica.source.example.com   \
+  secret.source.example.com      \
+  git.source.example.com         \
+  aapee.source.example.com       \
   capsule.source.example.com     \
-  aapee.source.example.com    
+  idreplica.source.example.com   \
+  gateway.source.example.com     
 do 
   sudo virsh shutdown $GUEST
   sleep 1

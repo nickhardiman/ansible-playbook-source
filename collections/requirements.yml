@@ -23,5 +23,6 @@ collections:
   - name: redhat.satellite
   - name: redhat.satellite_operations
   - name: ansible.controller
-# infra.aap_utilities?
-
+  # - name: infra.aap_utilities
+  # - name: nick.platform
+  # - name: nick.app
