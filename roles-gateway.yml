@@ -53,7 +53,12 @@
     - role: nick.platform.insights_client
     # !!! add time_server?
     # https://hardiman.consulting/rhel/9/time/chrony.html
-
+    # !!! add routes, same as hypervisors
+    # see
+    # Add a route to the virtual machines on other hosts
+    # https://github.com/nickhardiman/ansible-playbook-source/blob/main/machine-hypervisor.yml#L97
+    # !!! add haproxy and config from Internet to 
+    # satellite, aap control, aap hub, git, antora articles, etc. 
 
 # smoke tests 
 # !!! add tests

@@ -28,6 +28,8 @@ lv_root: 13312
 # LVM logical volume for /var   240G * 1024 = 245760M
 lv_var: 245760
 # LVM volume for swap: 256M
+# !!! increase to 4GB
+# triggers insights warning
 
 # network
 nics: 
