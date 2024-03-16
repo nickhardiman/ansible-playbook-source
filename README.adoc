@@ -1,7 +1,27 @@
 = Ansible playbook for turning a PC into a set of source VMs
 
-Ansible helps me assemble my home lab. 
+[NOTE] 
+====
+!!! 
+Write one command to kick off the build of everything.
+Each machine has its own playbook - combine three playbooks into one?
+These create a network of virtual machines on three fresh RHEL 9 hosts.
+
+* https://github.com/nickhardiman/ansible-playbook-source
+* https://github.com/nickhardiman/ansible-playbook-build
+* https://github.com/nickhardiman/ansible-playbook-supply
+
+Two supporting collections so far. 
+
+* https://github.com/nickhardiman/ansible-collection-platform
+* https://github.com/nickhardiman/ansible-collection-app
+====
+
+Ansible helps me build my home lab. 
 This playbook turns a PC running RHEL 9 into a hypervisor running a pile-load (that's the technical term) of Virtual Machines. 
+
+== virtual machines 
+
 Each VM runs a set of services that support my home lab. 
 
 . *gateway* hosts Bind, Squid, Postfix, NFS, haproxy, cockpit
