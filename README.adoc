@@ -2,9 +2,29 @@
 
 [NOTE] 
 ====
+Under construction. Sections marked with !!! and ??? are notes to self. 
+Like this one.
+
 !!! 
 Write one command to kick off the build of everything.
-Each machine has its own playbook - combine three playbooks into one?
+
+Use one certificate CA, not three.
+====
+
+Ansible helps me assemble my home lab. 
+I used three PCs to build a reasonably complicated network.
+Each PC has a purpose.
+One PC acts as an application builder and manager. It manages the building of things.  Another PC provides sources of data for this builder, and one is supplied by the builder.
+
+* *source* PC is a home for applications that provide data sources to Red Hat software, such as third party data vaults, user directories and code stores.
+* *build* PC holds Red Hat software, such as AAP, IdM and Satellite.
+* *supply* PC is where things are collected, such as logs, metrics, and mail. It is also where build applications create customer services.  
+This playbook turns a PC running RHEL 9 into a hypervisor running a pile-load (that's the technical term) of Virtual Machines. 
+
+
+== built by Ansible
+
+Each machine has its own Ansible playbook.
 These create a network of virtual machines on three fresh RHEL 9 hosts.
 
 * https://github.com/nickhardiman/ansible-playbook-source
@@ -15,21 +35,6 @@ Two supporting collections so far.
 
 * https://github.com/nickhardiman/ansible-collection-platform
 * https://github.com/nickhardiman/ansible-collection-app
-====
-
-Ansible helps me build my home lab. 
-This playbook turns a PC running RHEL 9 into a hypervisor running a pile-load (that's the technical term) of Virtual Machines. 
-
-== virtual machines 
-
-Each VM runs a set of services that support my home lab. 
-
-. *gateway* hosts Bind, Squid, Postfix, NFS, haproxy, cockpit
-. *idreplica* replica for Red Hat IDM (LDAP, CA, DNS)
-. *capsule* proxy for Red Hat Satellite
-. *aapee* Ansible Automation Platform Execution Environment node
-
-Under construction. Sections marked with !!! and ??? are notes to self. 
 
 
 == hardware
@@ -44,7 +49,7 @@ It's a lot of memory, and yet it isn't enough.
 It's never enough. 
 
 
-== Operating System
+== OS (Operating System)
 
 I use the playbook on this OS. 
 
@@ -58,8 +63,7 @@ See instructions in
 https://github.com/nickhardiman/ansible-playbook-source/blob/main/bootstrap.sh[bootstrap.sh].
 
 
-
-== Virtual Machines
+== VMs (Virtual Machines)
 
 image::source-network.drawio.png[title="source network"] 
 
@@ -85,6 +89,18 @@ aapee,            enp1s0,     52:54:00:11:00:06, 192.168.11.6,   source.example.
 git,              enp1s0,     52:54:00:11:00:07, 192.168.11.7,   source.example.com
 secret,           enp1s0,     52:54:00:11:00:08, 192.168.11.8,   source.example.com
 |===
+
+
+== applications 
+
+Each VM runs a set of services that support my home lab. 
+
+. *gateway* hosts Bind, Squid, Postfix, NFS, haproxy, cockpit
+. *idreplica* replica for Red Hat IDM (LDAP, CA, DNS)
+. *capsule* proxy for Red Hat Satellite
+. *aapee* Ansible Automation Platform Execution Environment node
+. *git* Gitlab
+. *secret* Keycloak, certificate CA
 
 
 == cheat sheet
