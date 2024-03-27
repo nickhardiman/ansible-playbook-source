@@ -11,8 +11,17 @@
 #   192.168.135.0/24 dev enp2s0 proto kernel scope link src 192.168.135.3 metric 101 
 #   [nick@gateway ~]$ 
 # extra default 
-# routes to other boxes missing 
 
+
+# !!! routes to other boxes missing 
+# add
+# ip route add SUBNET/24 via HOST IP
+# eg. for build
+# ip route add 192.168.11.0/24 via 192.168.13.1
+# ip route add 192.168.13.0/24 dev enp2s0
+# ip route add 192.168.15.0/24 via 192.168.13.1
+# base on 
+# https://github.com/nickhardiman/ansible-playbook-build/blob/main/machine-hypervisor.yml#L110
 
 
 # create a few variables like "volume_image_file_exists"
